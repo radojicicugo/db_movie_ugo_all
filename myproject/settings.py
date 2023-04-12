@@ -92,16 +92,15 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+'''
 
-DATABASES['default'] = dj_database_url.config(
-    default='postgres://...',
-    conn_max_age=600,
-    conn_health_checks=True,
-)'''
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
+import os, subprocess, dj_database_url
 
+bashCommand = “heroku config:get DATABASE_URL -a app_name” #Use your app_name
 
+output = subprocess.check_output([‘bash’,’-c’, bashCommand]).decode(“utf-8”) # executing the bash command and converting byte to string
+
+DATABASES[‘default’] = dj_database_url.config(default=output,conn_max_age=600, ssl_require=True) #making connection to heroku DB without having to set DATABASE_URL env variable
 
 
 # Password validation
