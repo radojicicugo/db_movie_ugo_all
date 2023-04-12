@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,7 +29,7 @@ SECRET_KEY = 'django-insecure-^y63#&ozx%%!*zm-xe1i8&@tfw^q8g3r0)1m@_f1mt5+#qt3yh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['db-for-all-app.herokuapp.com', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['db-all.herokuapp.com', '127.0.0.1', '*']
 
 
 # Application definition
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
     'podaci_korisnika',
     "corsheaders",
     'rest_framework',
+    'myproject',
 
 ]
 
@@ -89,13 +92,19 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
     }
 }'''
 
-import dj_database_url
 
-DATABASES['default'] = dj_database_url.config(
-    conn_max_age=600,
-    conn_health_checks=True,
-)
 
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'usersDB', 
+        'USER': 'Hugo', 
+        'PASSWORD': '4b0e63baf4f92eddf88590f39ddda6615e323df8659ec9d8f12c0cd43da7e4b5',
+        'HOST': 'ec2-52-215-68-14.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
