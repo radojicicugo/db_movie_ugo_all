@@ -28,4 +28,4 @@ route01.register("", PodaciView, basename='podaciview')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('podaci/', include(route01.urls)),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
