@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^y63#&ozx%%!*zm-xe1i8&@tfw^q8g3r0)1m@_f1mt5+#qt3yh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['db-all.herokuapp.com', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['new-db-all.herokuapp.com', '127.0.0.1', '*',]
 
 
 # Application definition
@@ -40,12 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles',  
     'movie',
+    'myproject',
     'podaci_korisnika',
     "corsheaders",
     'rest_framework',
-    'myproject',
+
 
 ]
 
@@ -90,14 +91,16 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}'''
-
-
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
 }
+
+DATABASES['default'] = dj_database_url.config(
+    default='postgres://...',
+    conn_max_age=600,
+    conn_health_checks=True,
+)'''
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
 
 
 
@@ -136,11 +139,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
 
 STATIC_URL = 'static/'
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+
+    os.path.join(BASE_DIR, "static")
+]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
