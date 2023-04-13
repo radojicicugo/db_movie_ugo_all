@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import django_heroku
 import os
 import dj_database_url
 
@@ -27,9 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^y63#&ozx%%!*zm-xe1i8&@tfw^q8g3r0)1m@_f1mt5+#qt3yh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['new-db-all.herokuapp.com', '127.0.0.1', '*',]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -46,7 +47,6 @@ INSTALLED_APPS = [
     'podaci_korisnika',
     "corsheaders",
     'rest_framework',
-
 
 ]
 
@@ -86,21 +86,16 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-'''DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-'''
 
-import os, subprocess, dj_database_url
 
-bashCommand = “heroku config:get DATABASE_URL -a app_name” #Use your app_name
 
-output = subprocess.check_output([‘bash’,’-c’, bashCommand]).decode(“utf-8”) # executing the bash command and converting byte to string
-
-DATABASES[‘default’] = dj_database_url.config(default=output,conn_max_age=600, ssl_require=True) #making connection to heroku DB without having to set DATABASE_URL env variable
+'''DATABASES[‘default’] = dj_database_url.config(default=output,conn_max_age=600, ssl_require=True) #making connection to heroku DB without having to set DATABASE_URL env variable'''
 
 
 # Password validation
@@ -138,14 +133,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+django_heroku.settings(locals())
 
-STATIC_URL = 'static/'
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [
-
-    os.path.join(BASE_DIR, "static")
-]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
