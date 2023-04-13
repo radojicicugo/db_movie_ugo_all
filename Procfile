@@ -1,1 +1,1 @@
-web:gunicorn myproject.wsgi --log-file -
+web: gunicorn podaci_korisnika.wsgi --log-file -
