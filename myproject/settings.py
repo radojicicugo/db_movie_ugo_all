@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-^y63#&ozx%%!*zm-xe1i8&@tfw^q8g3r0)1m@_f1mt5+#qt3yh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*','database-for-data.herokuapp.com']
 
 
 # Application definition
@@ -86,16 +86,33 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}'''
+
+DATABASES = {
+
+    'default': {
+
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+        'NAME': 'db2rs1up2k0p1j',
+
+        'USER': 'hcpewsymrogzjl',
+
+        'PASSWORD': '440f70670164040715eab90c6558881c5e7ce8eed3f17d5844d856477fbe59fb',
+
+        'HOST': 'ec2-34-236-199-229.compute-1.amazonaws.com',
+
+        'PORT': '5432',
+
+    }
+
 }
 
-
-
-'''DATABASES[‘default’] = dj_database_url.config(default=output,conn_max_age=600, ssl_require=True) #making connection to heroku DB without having to set DATABASE_URL env variable'''
 
 
 # Password validation
